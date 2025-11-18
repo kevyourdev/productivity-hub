@@ -32,7 +32,6 @@ const tools = [
     icon: "✅",
     href: "/tools/todo",
     color: "bg-blue-600",
-    comingSoon: true,
   },
   {
     id: "notes",
