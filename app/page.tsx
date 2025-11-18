@@ -24,7 +24,6 @@ const tools = [
     icon: "🍅",
     href: "/tools/pomodoro",
     color: "bg-red-600",
-    comingSoon: true,
   },
   {
     id: "todo",
