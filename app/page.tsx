@@ -10,6 +10,14 @@ const tools = [
     color: "bg-black",
   },
   {
+    id: "flip-a-coin",
+    name: "Flip a Coin",
+    description: "Make decisions with a simple coin flip",
+    icon: "🪙",
+    href: "/tools/flip-a-coin",
+    color: "bg-yellow-400",
+  },
+  {
     id: "pomodoro",
     name: "Pomodoro Timer",
     description: "Time management using the Pomodoro Technique",
@@ -33,7 +41,7 @@ const tools = [
     description: "Capture your thoughts instantly",
     icon: "📝",
     href: "/tools/notes",
-    color: "bg-yellow-400",
+    color: "bg-purple-600",
     comingSoon: true,
   },
 ];
