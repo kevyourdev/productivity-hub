@@ -40,7 +40,6 @@ const tools = [
     icon: "📝",
     href: "/tools/notes",
     color: "bg-purple-600",
-    comingSoon: true,
   },
 ];
 
