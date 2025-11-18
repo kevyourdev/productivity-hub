@@ -70,38 +70,38 @@ const tools = [
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
-      <div className="container mx-auto px-4 py-12">
-        <header className="mb-16 border-8 border-black p-8 bg-white">
-          <h1 className="text-6xl font-black text-black mb-4 uppercase tracking-tight">
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-12">
+        <header className="mb-8 sm:mb-16 border-4 sm:border-8 border-black p-4 sm:p-8 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-black mb-2 sm:mb-4 uppercase tracking-tight">
             Productivity Hub
           </h1>
-          <p className="text-2xl font-bold text-black uppercase">
+          <p className="text-base sm:text-xl lg:text-2xl font-bold text-black uppercase">
             Your Tools. Your Rules.
           </p>
         </header>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto">
           {tools.map((tool) => (
             <Link
               key={tool.id}
               href={tool.comingSoon ? "#" : tool.href}
-              className={`group relative block p-8 border-8 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-4px] hover:translate-y-[-4px] transition-all ${
+              className={`group relative block p-6 sm:p-8 border-4 sm:border-8 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] sm:hover:translate-x-[-4px] sm:hover:translate-y-[-4px] transition-all ${
                 tool.color
               } ${tool.comingSoon ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               {tool.comingSoon && (
-                <div className="absolute top-4 right-4 bg-white border-4 border-black text-black text-xs font-black px-3 py-1 uppercase">
+                <div className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-white border-2 sm:border-4 border-black text-black text-xs font-black px-2 py-1 sm:px-3 uppercase">
                   Soon
                 </div>
               )}
-              <div className="text-6xl mb-4">{tool.icon}</div>
-              <h2 className="text-2xl font-black text-white mb-2 uppercase">
+              <div className="text-4xl sm:text-6xl mb-3 sm:mb-4">{tool.icon}</div>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-white mb-1 sm:mb-2 uppercase leading-tight">
                 {tool.name}
               </h2>
-              <p className="text-white font-bold">{tool.description}</p>
+              <p className="text-white font-bold text-sm sm:text-base leading-tight">{tool.description}</p>
             </Link>
           ))}
         </div>
-        <footer className="text-center mt-16 border-t-4 border-black pt-8">
+        <footer className="text-center mt-8 sm:mt-16 border-t-2 sm:border-t-4 border-black pt-4 sm:pt-8">
           <p className="font-black text-black uppercase tracking-wider">Built with Next.js</p>
         </footer>
       </div>
