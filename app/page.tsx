@@ -41,6 +41,30 @@ const tools = [
     href: "/tools/notes",
     color: "bg-purple-600",
   },
+  {
+    id: "random-number",
+    name: "Random Number",
+    description: "Generate random numbers instantly",
+    icon: "🔢",
+    href: "/tools/random-number",
+    color: "bg-green-500",
+  },
+  {
+    id: "password-generator",
+    name: "Password Gen",
+    description: "Create secure random passwords",
+    icon: "🔒",
+    href: "/tools/password-generator",
+    color: "bg-pink-500",
+  },
+  {
+    id: "dice-roller",
+    name: "Dice Roller",
+    description: "Roll dice for games and decisions",
+    icon: "🎲",
+    href: "/tools/dice-roller",
+    color: "bg-orange-500",
+  },
 ];
 
 export default function Home() {
