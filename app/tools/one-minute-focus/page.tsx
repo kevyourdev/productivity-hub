@@ -47,27 +47,29 @@ export default function OneMinuteFocus() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-white relative">
       <Link
         href="/"
-        className="absolute top-8 left-8 text-gray-400 hover:text-gray-600 transition-colors"
+        className="absolute top-8 left-8 border-4 border-black bg-white px-4 py-2 font-black uppercase text-sm hover:bg-black hover:text-white transition-colors"
       >
-        ← Back to Hub
+        ← Back
       </Link>
       {!isActive ? (
-        <div className="flex flex-col items-center gap-8">
-          <p className="text-center text-lg max-w-md px-4">
-            Look at the dot & breathe for just{" "}
-            <select
-              value={duration}
-              onChange={handleDurationChange}
-              className="underline cursor-pointer bg-transparent border-none outline-none"
-            >
-              <option value={30}>0.5 min</option>
-              <option value={60}>1 min</option>
-            </select>{" "}
-            to improve mental focus for your next task
-          </p>
+        <div className="flex flex-col items-center gap-8 max-w-2xl">
+          <div className="border-8 border-black p-8 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+            <p className="text-center text-2xl font-bold uppercase">
+              Look at the dot & breathe for{" "}
+              <select
+                value={duration}
+                onChange={handleDurationChange}
+                className="border-4 border-black bg-yellow-300 px-2 py-1 font-black cursor-pointer uppercase"
+              >
+                <option value={30}>0.5 min</option>
+                <option value={60}>1 min</option>
+              </select>{" "}
+              to improve focus
+            </p>
+          </div>
           <button
             onClick={handleStart}
-            className="bg-black text-white px-12 py-3 rounded-full text-lg font-medium hover:bg-gray-800 transition-colors cursor-pointer"
+            className="bg-black text-white border-8 border-black px-16 py-6 text-2xl font-black uppercase hover:bg-white hover:text-black transition-colors cursor-pointer shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-4px] hover:translate-y-[-4px]"
           >
             Start
           </button>
@@ -75,12 +77,12 @@ export default function OneMinuteFocus() {
       ) : (
         <div className="flex flex-col items-center justify-center">
           <div
-            className="w-80 h-80 bg-black rounded-full"
+            className="w-80 h-80 bg-black border-8 border-black"
             style={{
               animation: 'breathe 4s ease-in-out infinite'
             }}
           ></div>
-          <div className="mt-8 text-3xl font-light tabular-nums">
+          <div className="mt-8 text-6xl font-black tabular-nums border-8 border-black px-8 py-4 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             {formatTime(timeLeft)}
           </div>
         </div>
