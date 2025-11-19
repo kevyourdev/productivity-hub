@@ -83,16 +83,9 @@ export default function Home() {
           {tools.map((tool) => (
             <Link
               key={tool.id}
-              href={tool.comingSoon ? "#" : tool.href}
-              className={`group relative block p-6 sm:p-8 border-4 sm:border-8 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] sm:hover:translate-x-[-4px] sm:hover:translate-y-[-4px] transition-all ${
-                tool.color
-              } ${tool.comingSoon ? "opacity-50 cursor-not-allowed" : ""}`}
+              href={tool.href}
+              className={`group relative block p-6 sm:p-8 border-4 sm:border-8 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] sm:hover:translate-x-[-4px] sm:hover:translate-y-[-4px] transition-all ${tool.color}`}
             >
-              {tool.comingSoon && (
-                <div className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-white border-2 sm:border-4 border-black text-black text-xs font-black px-2 py-1 sm:px-3 uppercase">
-                  Soon
-                </div>
-              )}
               <div className="text-4xl sm:text-6xl mb-3 sm:mb-4">{tool.icon}</div>
               <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-white mb-1 sm:mb-2 uppercase leading-tight">
                 {tool.name}
