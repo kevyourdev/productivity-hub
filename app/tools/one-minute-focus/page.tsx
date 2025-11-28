@@ -48,12 +48,13 @@ export default function OneMinuteFocus() {
       <Link
         href="/"
         className="absolute top-4 left-4 sm:top-8 sm:left-8 border-4 border-black bg-white px-3 py-2 sm:px-4 font-black uppercase text-xs sm:text-sm hover:bg-black hover:text-white transition-colors"
+        style={{ animation: 'slideInLeft 0.4s ease-out' }}
       >
         ← Back
       </Link>
       {!isActive ? (
         <div className="flex flex-col items-center gap-6 sm:gap-8 max-w-2xl w-full">
-          <div className="border-4 sm:border-8 border-black p-6 sm:p-8 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          <div className="border-4 sm:border-8 border-black p-6 sm:p-8 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]" style={{ animation: 'fadeIn 0.5s ease-out' }}>
             <p className="text-center text-lg sm:text-2xl font-bold uppercase">
               Look at the dot & breathe for{" "}
               <select

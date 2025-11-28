@@ -62,12 +62,13 @@ export default function Pomodoro() {
       <Link
         href="/"
         className="inline-block border-4 border-black bg-white px-3 py-2 sm:px-4 font-black uppercase text-xs sm:text-sm hover:bg-black hover:text-white transition-colors mb-6 sm:mb-8"
+        style={{ animation: 'slideInLeft 0.4s ease-out' }}
       >
         ← Back
       </Link>
 
       <div className="max-w-4xl mx-auto">
-        <div className="border-4 sm:border-8 border-black p-6 sm:p-8 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-6 sm:mb-8">
+        <div className="border-4 sm:border-8 border-black p-6 sm:p-8 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-6 sm:mb-8" style={{ animation: 'slideInUp 0.5s ease-out' }}>
           <h1 className="text-3xl sm:text-5xl font-black uppercase mb-3 sm:mb-4">Pomodoro Timer</h1>
           <p className="text-base sm:text-xl font-bold uppercase">
             Work in focused 25-minute intervals
