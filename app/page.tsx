@@ -153,6 +153,14 @@ const tools = [
     href: "/tools/expense-tracker",
     color: "bg-red-500",
   },
+  {
+    id: "exchange-rate",
+    name: "Exchange Rate",
+    description: "USD to TWD currency converter",
+    icon: "💱",
+    href: "/tools/exchange-rate",
+    color: "bg-yellow-500",
+  },
 ];
 
 export default function Home() {
