@@ -3,32 +3,57 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
+interface ExchangeRates {
+  USD: number;
+  JPY: number;
+  EUR: number;
+  CNY: number;
+  CAD: number;
+}
+
 interface ConversionHistory {
-  usd: number;
+  amount: number;
   twd: number;
   rate: number;
+  currency: string;
   timestamp: Date;
 }
 
+const currencies = [
+  { code: "USD", name: "US Dollar", flag: "🇺🇸", color: "bg-blue-500" },
+  { code: "JPY", name: "Japanese Yen", flag: "🇯🇵", color: "bg-red-500" },
+  { code: "EUR", name: "Euro", flag: "🇪🇺", color: "bg-blue-600" },
+  { code: "CNY", name: "Chinese Yuan", flag: "🇨🇳", color: "bg-red-600" },
+  { code: "CAD", name: "Canadian Dollar", flag: "🇨🇦", color: "bg-red-400" },
+];
+
 export default function ExchangeRate() {
-  const [usdAmount, setUsdAmount] = useState<string>("1");
-  const [exchangeRate, setExchangeRate] = useState<number | null>(null);
+  const [selectedCurrency, setSelectedCurrency] = useState("USD");
+  const [amount, setAmount] = useState<string>("1");
+  const [exchangeRates, setExchangeRates] = useState<ExchangeRates | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [history, setHistory] = useState<ConversionHistory[]>([]);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-  const fetchExchangeRate = async () => {
+  const fetchExchangeRates = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
-      if (!response.ok) throw new Error("Failed to fetch exchange rate");
+      const response = await fetch("https://api.exchangerate-api.com/v4/latest/TWD");
+      if (!response.ok) throw new Error("Failed to fetch exchange rates");
       const data = await response.json();
-      setExchangeRate(data.rates.TWD);
+
+      setExchangeRates({
+        USD: 1 / data.rates.USD,
+        JPY: 1 / data.rates.JPY,
+        EUR: 1 / data.rates.EUR,
+        CNY: 1 / data.rates.CNY,
+        CAD: 1 / data.rates.CAD,
+      });
       setLastUpdated(new Date());
     } catch (err) {
-      setError("Failed to fetch exchange rate. Please try again.");
+      setError("Failed to fetch exchange rates. Please try again.");
       console.error(err);
     } finally {
       setLoading(false);
@@ -36,23 +61,24 @@ export default function ExchangeRate() {
   };
 
   useEffect(() => {
-    fetchExchangeRate();
+    fetchExchangeRates();
   }, []);
 
   const calculateTWD = () => {
-    const usd = parseFloat(usdAmount);
-    if (isNaN(usd) || !exchangeRate) return 0;
-    return usd * exchangeRate;
+    const inputAmount = parseFloat(amount);
+    if (isNaN(inputAmount) || !exchangeRates) return 0;
+    return inputAmount * exchangeRates[selectedCurrency as keyof ExchangeRates];
   };
 
   const addToHistory = () => {
-    const usd = parseFloat(usdAmount);
-    if (isNaN(usd) || !exchangeRate) return;
+    const inputAmount = parseFloat(amount);
+    if (isNaN(inputAmount) || !exchangeRates) return;
 
     const newEntry: ConversionHistory = {
-      usd,
-      twd: usd * exchangeRate,
-      rate: exchangeRate,
+      amount: inputAmount,
+      twd: inputAmount * exchangeRates[selectedCurrency as keyof ExchangeRates],
+      rate: exchangeRates[selectedCurrency as keyof ExchangeRates],
+      currency: selectedCurrency,
       timestamp: new Date(),
     };
 
@@ -70,18 +96,18 @@ export default function ExchangeRate() {
         ← Back
       </Link>
 
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="border-4 sm:border-8 border-black p-6 sm:p-12 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-6 sm:mb-8">
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black mb-4 sm:mb-6 uppercase">
             💱 Exchange Rate
           </h1>
           <p className="text-base sm:text-xl font-bold uppercase mb-6 sm:mb-8">
-            USD to TWD Currency Converter
+            Currency to TWD Converter
           </p>
 
           {loading && (
             <div className="text-lg sm:text-2xl font-bold uppercase mb-4 sm:mb-6">
-              Loading exchange rate...
+              Loading exchange rates...
             </div>
           )}
 
@@ -91,33 +117,65 @@ export default function ExchangeRate() {
             </div>
           )}
 
-          {exchangeRate && !loading && (
+          {exchangeRates && !loading && (
             <>
-              <div className="border-4 sm:border-8 border-black p-4 sm:p-6 bg-green-400 mb-6 sm:mb-8">
-                <div className="text-sm sm:text-base font-bold uppercase mb-2">
-                  Current Rate
-                </div>
-                <div className="text-3xl sm:text-5xl font-black">
-                  1 USD = {exchangeRate.toFixed(4)} TWD
-                </div>
-                {lastUpdated && (
-                  <div className="text-xs sm:text-sm font-bold uppercase mt-2 opacity-75">
-                    Updated: {lastUpdated.toLocaleTimeString()}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8">
+                {currencies.map((currency) => (
+                  <div
+                    key={currency.code}
+                    className="border-4 border-black p-3 sm:p-4 bg-green-400"
+                  >
+                    <div className="text-2xl sm:text-3xl mb-1 sm:mb-2">{currency.flag}</div>
+                    <div className="text-xs sm:text-sm font-bold uppercase mb-1">
+                      1 {currency.code}
+                    </div>
+                    <div className="text-base sm:text-xl font-black">
+                      {exchangeRates[currency.code as keyof ExchangeRates].toFixed(4)}
+                    </div>
+                    <div className="text-xs font-bold uppercase opacity-75">TWD</div>
                   </div>
-                )}
+                ))}
+              </div>
+
+              {lastUpdated && (
+                <div className="text-xs sm:text-sm font-bold uppercase mb-6 sm:mb-8 text-center opacity-75">
+                  Updated: {lastUpdated.toLocaleTimeString()}
+                </div>
+              )}
+
+              <div className="mb-6 sm:mb-8">
+                <label className="block text-base sm:text-xl font-black uppercase mb-3 sm:mb-4">
+                  Select Currency
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+                  {currencies.map((currency) => (
+                    <button
+                      key={currency.code}
+                      onClick={() => setSelectedCurrency(currency.code)}
+                      className={`border-4 border-black p-3 sm:p-4 font-black uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all ${
+                        selectedCurrency === currency.code
+                          ? currency.color + " text-white"
+                          : "bg-white"
+                      }`}
+                    >
+                      <div className="text-2xl mb-1">{currency.flag}</div>
+                      <div className="text-sm sm:text-base">{currency.code}</div>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
                 <div>
                   <label className="block text-base sm:text-xl font-black uppercase mb-3 sm:mb-4">
-                    USD Amount
+                    {selectedCurrency} Amount
                   </label>
                   <input
                     type="number"
-                    value={usdAmount}
-                    onChange={(e) => setUsdAmount(e.target.value)}
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
                     className="w-full border-4 border-black p-3 sm:p-4 text-xl sm:text-3xl font-bold focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-                    placeholder="Enter USD amount"
+                    placeholder={`Enter ${selectedCurrency} amount`}
                     step="0.01"
                   />
                 </div>
@@ -138,15 +196,15 @@ export default function ExchangeRate() {
                 <button
                   onClick={addToHistory}
                   className="flex-1 border-4 border-black bg-blue-500 text-white px-4 sm:px-8 py-3 sm:py-4 text-base sm:text-xl font-black uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={isNaN(parseFloat(usdAmount))}
+                  disabled={isNaN(parseFloat(amount))}
                 >
                   Save to History
                 </button>
                 <button
-                  onClick={fetchExchangeRate}
+                  onClick={fetchExchangeRates}
                   className="border-4 border-black bg-purple-500 text-white px-4 sm:px-8 py-3 sm:py-4 text-base sm:text-xl font-black uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
                 >
-                  Refresh Rate
+                  Refresh Rates
                 </button>
               </div>
             </>
@@ -174,9 +232,9 @@ export default function ExchangeRate() {
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div className="font-bold text-sm sm:text-lg">
-                      <span className="font-black">${item.usd.toFixed(2)} USD</span>
+                      <span className="font-black">{item.amount.toFixed(2)} {item.currency}</span>
                       {" → "}
-                      <span className="font-black">${item.twd.toFixed(2)} TWD</span>
+                      <span className="font-black">{item.twd.toFixed(2)} TWD</span>
                     </div>
                     <div className="text-xs sm:text-sm font-bold uppercase opacity-75">
                       Rate: {item.rate.toFixed(4)} | {item.timestamp.toLocaleTimeString()}

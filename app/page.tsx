@@ -156,7 +156,7 @@ const tools = [
   {
     id: "exchange-rate",
     name: "Exchange Rate",
-    description: "USD to TWD currency converter",
+    description: "Multi-currency to TWD converter",
     icon: "💱",
     href: "/tools/exchange-rate",
     color: "bg-yellow-500",
