@@ -183,3 +183,30 @@ This project uses the Vercel MCP server for deployment management:
 ### Deployment
 
 Not yet deployed. Vercel MCP server is configured and ready for deployment.
+
+## GitHub Integration
+
+### Claude GitHub Action
+This repository is configured with Claude Code GitHub Action for automated development.
+
+**Setup Required (one-time):**
+1. Install the Claude GitHub App: https://github.com/apps/claude
+2. Add `ANTHROPIC_API_KEY` secret to repository settings
+
+**Usage:**
+- Comment `@claude [your request]` on any issue or PR
+- Claude will analyze, implement, and respond
+- For issues: Claude can create PRs with implementations
+- For PRs: Claude can review, suggest changes, or push commits
+
+**Workflows:**
+- `.github/workflows/claude.yml` - Claude Code Action (responds to @claude mentions)
+- `.github/workflows/ci.yml` - CI/CD pipeline (build + lint on PRs and pushes)
+
+**Examples:**
+```
+@claude Please implement this feature
+@claude Fix the bug described in this issue
+@claude Review this PR and suggest improvements
+@claude Add tests for the todo component
+```
