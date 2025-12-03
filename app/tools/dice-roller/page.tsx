@@ -8,6 +8,7 @@ export default function DiceRoller() {
   const [numDice, setNumDice] = useState(1);
   const [sides, setSides] = useState(6);
   const [results, setResults] = useState<number[]>([]);
+  const [rollingValues, setRollingValues] = useState<number[]>([]);
   const [total, setTotal] = useState(0);
   const [rolling, setRolling] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -20,15 +21,29 @@ export default function DiceRoller() {
 
   const rollDice = () => {
     setRolling(true);
+    setResults([]);
+
+    // Initialize rolling values
+    const initialRolling = Array(numDice).fill(0).map(() => Math.floor(Math.random() * sides) + 1);
+    setRollingValues(initialRolling);
+
+    // Cycle through random values rapidly
+    const intervalId = setInterval(() => {
+      setRollingValues(prev => prev.map(() => Math.floor(Math.random() * sides) + 1));
+    }, 80);
+
+    // Stop after 800ms and show final results
     setTimeout(() => {
+      clearInterval(intervalId);
       const newResults: number[] = [];
       for (let i = 0; i < numDice; i++) {
         newResults.push(Math.floor(Math.random() * sides) + 1);
       }
       setResults(newResults);
       setTotal(newResults.reduce((a, b) => a + b, 0));
+      setRollingValues([]);
       setRolling(false);
-    }, 500);
+    }, 800);
   };
 
   const dicePresets = [
@@ -105,7 +120,27 @@ export default function DiceRoller() {
             </button>
           </div>
 
-          {results.length > 0 && (
+          {rolling && rollingValues.length > 0 && (
+            <div className="w-full max-w-2xl">
+              <div className="border-4 sm:border-8 border-black p-4 sm:p-6 bg-orange-400 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                <h2 className="text-xl sm:text-2xl font-black uppercase mb-3 sm:mb-4 text-white">
+                  🎲 Rolling...
+                </h2>
+                <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
+                  {rollingValues.map((value, index) => (
+                    <div
+                      key={index}
+                      className="border-2 sm:border-4 border-black px-6 py-4 sm:px-8 sm:py-6 bg-white font-black text-3xl sm:text-4xl animate-dice-roll"
+                    >
+                      {value}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {!rolling && results.length > 0 && (
             <>
               <div
                 className="border-4 sm:border-8 border-black p-10 sm:p-12 bg-red-500 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]"
@@ -127,7 +162,8 @@ export default function DiceRoller() {
                     {results.map((result, index) => (
                       <div
                         key={index}
-                        className="border-2 sm:border-4 border-black px-6 py-4 sm:px-8 sm:py-6 bg-yellow-400 font-black text-3xl sm:text-4xl animate-dice-roll"
+                        className="border-2 sm:border-4 border-black px-6 py-4 sm:px-8 sm:py-6 bg-yellow-400 font-black text-3xl sm:text-4xl"
+                        style={{ animation: 'scaleIn 0.3s ease-out' }}
                       >
                         {result}
                       </div>
