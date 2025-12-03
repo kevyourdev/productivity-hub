@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import autoAnimate from "@formkit/auto-animate";
 
 type CoinSide = "heads" | "tails" | null;
 
@@ -9,6 +10,13 @@ export default function FlipACoin() {
   const [result, setResult] = useState<CoinSide>(null);
   const [isFlipping, setIsFlipping] = useState(false);
   const [history, setHistory] = useState<CoinSide[]>([]);
+  const historyRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (historyRef.current) {
+      autoAnimate(historyRef.current);
+    }
+  }, []);
 
   const flipCoin = () => {
     setIsFlipping(true);
@@ -51,7 +59,7 @@ export default function FlipACoin() {
         <div className="flex flex-col items-center gap-6 sm:gap-8">
           <div
             className={`w-48 h-48 sm:w-64 sm:h-64 border-4 sm:border-8 border-black bg-yellow-400 flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] ${
-              isFlipping ? "animate-spin" : ""
+              isFlipping ? "animate-flip" : ""
             }`}
             style={!isFlipping && !result ? { animation: 'pulse 2s ease-in-out infinite' } : undefined}
           >
@@ -76,7 +84,7 @@ export default function FlipACoin() {
           <button
             onClick={flipCoin}
             disabled={isFlipping}
-            className="bg-black text-white border-4 sm:border-8 border-black px-12 py-5 sm:px-16 sm:py-6 text-xl sm:text-2xl font-black uppercase hover:bg-white hover:text-black transition-colors cursor-pointer shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] sm:hover:translate-x-[-4px] sm:hover:translate-y-[-4px] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-black disabled:hover:text-white disabled:hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:disabled:hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] disabled:hover:translate-x-0 disabled:hover:translate-y-0"
+            className="btn-press bg-black text-white border-4 sm:border-8 border-black px-12 py-5 sm:px-16 sm:py-6 text-xl sm:text-2xl font-black uppercase hover:bg-white hover:text-black transition-all cursor-pointer shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] sm:hover:translate-x-[-4px] sm:hover:translate-y-[-4px] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-black disabled:hover:text-white disabled:hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:disabled:hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] disabled:hover:translate-x-0 disabled:hover:translate-y-0"
           >
             {isFlipping ? "Flipping..." : "Flip Coin"}
           </button>
@@ -105,7 +113,7 @@ export default function FlipACoin() {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-2">
+                <div ref={historyRef} className="flex flex-wrap gap-2">
                   {history.map((item, index) => (
                     <div
                       key={index}

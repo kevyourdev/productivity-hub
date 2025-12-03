@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import autoAnimate from "@formkit/auto-animate";
 
 interface Todo {
   id: number;
@@ -12,6 +13,13 @@ interface Todo {
 export default function TodoList() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [inputValue, setInputValue] = useState("");
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (listRef.current) {
+      autoAnimate(listRef.current);
+    }
+  }, []);
 
   const addTodo = () => {
     if (inputValue.trim()) {
@@ -75,7 +83,7 @@ export default function TodoList() {
           />
           <button
             onClick={addTodo}
-            className="bg-black text-white border-4 sm:border-8 border-black px-10 py-3 sm:px-12 sm:py-4 text-lg sm:text-xl font-black uppercase hover:bg-white hover:text-black transition-colors cursor-pointer shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] sm:hover:translate-x-[-4px] sm:hover:translate-y-[-4px]"
+            className="btn-press bg-black text-white border-4 sm:border-8 border-black px-10 py-3 sm:px-12 sm:py-4 text-lg sm:text-xl font-black uppercase hover:bg-white hover:text-black transition-all cursor-pointer shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] sm:hover:translate-x-[-4px] sm:hover:translate-y-[-4px]"
           >
             Add
           </button>
@@ -98,7 +106,7 @@ export default function TodoList() {
 
         {todos.length > 0 && (
           <>
-            <div className="border-4 sm:border-8 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-6 sm:mb-8">
+            <div ref={listRef} className="border-4 sm:border-8 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-6 sm:mb-8">
               {todos.map((todo) => (
                 <div
                   key={todo.id}

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import autoAnimate from "@formkit/auto-animate";
 
 export default function DiceRoller() {
   const [numDice, setNumDice] = useState(1);
@@ -9,6 +10,13 @@ export default function DiceRoller() {
   const [results, setResults] = useState<number[]>([]);
   const [total, setTotal] = useState(0);
   const [rolling, setRolling] = useState(false);
+  const resultsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (resultsRef.current) {
+      autoAnimate(resultsRef.current);
+    }
+  }, []);
 
   const rollDice = () => {
     setRolling(true);
@@ -91,15 +99,19 @@ export default function DiceRoller() {
             <button
               onClick={rollDice}
               disabled={rolling}
-              className="w-full bg-black text-white border-4 sm:border-8 border-black px-6 py-5 sm:px-8 sm:py-6 text-xl sm:text-2xl font-black uppercase hover:bg-white hover:text-black transition-colors cursor-pointer shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] sm:hover:translate-x-[-4px] sm:hover:translate-y-[-4px] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-black disabled:hover:text-white disabled:hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:disabled:hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] disabled:hover:translate-x-0 disabled:hover:translate-y-0"
+              className="btn-press w-full bg-black text-white border-4 sm:border-8 border-black px-6 py-5 sm:px-8 sm:py-6 text-xl sm:text-2xl font-black uppercase hover:bg-white hover:text-black transition-all cursor-pointer shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] sm:hover:translate-x-[-4px] sm:hover:translate-y-[-4px] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-black disabled:hover:text-white disabled:hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:disabled:hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] disabled:hover:translate-x-0 disabled:hover:translate-y-0"
             >
-              {rolling ? "Rolling..." : "Roll Dice"}
+              {rolling ? "🎲 Rolling..." : "Roll Dice"}
             </button>
           </div>
 
           {results.length > 0 && (
             <>
-              <div className="border-4 sm:border-8 border-black p-10 sm:p-12 bg-red-500 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
+              <div
+                className="border-4 sm:border-8 border-black p-10 sm:p-12 bg-red-500 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]"
+                key={total}
+                style={{ animation: 'numberPop 0.3s ease-out' }}
+              >
                 <div className="text-xs sm:text-sm font-black uppercase mb-2 text-white">
                   Total
                 </div>
@@ -111,11 +123,11 @@ export default function DiceRoller() {
                   <h2 className="text-xl sm:text-2xl font-black uppercase mb-3 sm:mb-4">
                     Individual Rolls
                   </h2>
-                  <div className="flex flex-wrap gap-2 sm:gap-3">
+                  <div ref={resultsRef} className="flex flex-wrap gap-2 sm:gap-3">
                     {results.map((result, index) => (
                       <div
                         key={index}
-                        className="border-2 sm:border-4 border-black px-6 py-4 sm:px-8 sm:py-6 bg-yellow-400 font-black text-3xl sm:text-4xl"
+                        className="border-2 sm:border-4 border-black px-6 py-4 sm:px-8 sm:py-6 bg-yellow-400 font-black text-3xl sm:text-4xl animate-dice-roll"
                       >
                         {result}
                       </div>

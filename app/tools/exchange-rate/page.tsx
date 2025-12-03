@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import autoAnimate from "@formkit/auto-animate";
 
 interface ExchangeRates {
   USD: number;
@@ -35,6 +36,13 @@ export default function ExchangeRate() {
   const [error, setError] = useState<string | null>(null);
   const [history, setHistory] = useState<ConversionHistory[]>([]);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const historyRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (historyRef.current) {
+      autoAnimate(historyRef.current);
+    }
+  }, []);
 
   const fetchExchangeRates = async () => {
     setLoading(true);
@@ -106,8 +114,8 @@ export default function ExchangeRate() {
           </p>
 
           {loading && (
-            <div className="text-lg sm:text-2xl font-bold uppercase mb-4 sm:mb-6">
-              Loading exchange rates...
+            <div className="text-lg sm:text-2xl font-bold uppercase mb-4 sm:mb-6 animate-loading">
+              💱 Loading exchange rates...
             </div>
           )}
 
@@ -224,7 +232,7 @@ export default function ExchangeRate() {
                 Clear
               </button>
             </div>
-            <div className="space-y-3 sm:space-y-4">
+            <div ref={historyRef} className="space-y-3 sm:space-y-4">
               {history.map((item, index) => (
                 <div
                   key={index}

@@ -109,7 +109,11 @@ export default function Pomodoro() {
             </button>
           </div>
 
-          <div className="border-4 sm:border-8 border-black p-10 sm:p-16 bg-red-500 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
+          <div
+            className={`border-4 sm:border-8 border-black p-10 sm:p-16 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] ${
+              mode === "work" ? "bg-red-500" : mode === "shortBreak" ? "bg-blue-500" : "bg-purple-500"
+            } ${isRunning ? "animate-timer-pulse" : ""}`}
+          >
             <div className="text-6xl sm:text-9xl font-black text-white tabular-nums">
               {formatTime(timeLeft)}
             </div>
@@ -118,15 +122,15 @@ export default function Pomodoro() {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-md sm:max-w-none">
             <button
               onClick={toggleTimer}
-              className="bg-black text-white border-4 sm:border-8 border-black px-12 py-5 sm:px-16 sm:py-6 text-xl sm:text-2xl font-black uppercase hover:bg-white hover:text-black transition-colors cursor-pointer shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] sm:hover:translate-x-[-4px] sm:hover:translate-y-[-4px]"
+              className="btn-press bg-black text-white border-4 sm:border-8 border-black px-12 py-5 sm:px-16 sm:py-6 text-xl sm:text-2xl font-black uppercase hover:bg-white hover:text-black transition-all cursor-pointer shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] sm:hover:translate-x-[-4px] sm:hover:translate-y-[-4px]"
             >
-              {isRunning ? "Pause" : "Start"}
+              {isRunning ? "⏸ Pause" : "▶ Start"}
             </button>
             <button
               onClick={resetTimer}
-              className="bg-white text-black border-4 sm:border-8 border-black px-10 py-5 sm:px-12 sm:py-6 text-xl sm:text-2xl font-black uppercase hover:bg-gray-200 transition-colors cursor-pointer shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] sm:hover:translate-x-[-4px] sm:hover:translate-y-[-4px]"
+              className="btn-press bg-white text-black border-4 sm:border-8 border-black px-10 py-5 sm:px-12 sm:py-6 text-xl sm:text-2xl font-black uppercase hover:bg-gray-200 transition-all cursor-pointer shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] sm:hover:translate-x-[-4px] sm:hover:translate-y-[-4px]"
             >
-              Reset
+              ↺ Reset
             </button>
           </div>
 
