@@ -35,12 +35,13 @@ export default function FlipACoin() {
       <Link
         href="/"
         className="inline-block border-4 border-black bg-white px-3 py-2 sm:px-4 font-black uppercase text-xs sm:text-sm hover:bg-black hover:text-white transition-colors mb-6 sm:mb-8"
+        style={{ animation: 'slideInLeft 0.4s ease-out' }}
       >
         ← Back
       </Link>
 
       <div className="max-w-4xl mx-auto">
-        <div className="border-4 sm:border-8 border-black p-6 sm:p-8 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-6 sm:mb-8">
+        <div className="border-4 sm:border-8 border-black p-6 sm:p-8 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-6 sm:mb-8" style={{ animation: 'slideInUp 0.5s ease-out' }}>
           <h1 className="text-3xl sm:text-5xl font-black uppercase mb-3 sm:mb-4">Flip a Coin</h1>
           <p className="text-base sm:text-xl font-bold uppercase">
             Make decisions the old-fashioned way
@@ -52,16 +53,17 @@ export default function FlipACoin() {
             className={`w-48 h-48 sm:w-64 sm:h-64 border-4 sm:border-8 border-black bg-yellow-400 flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] ${
               isFlipping ? "animate-spin" : ""
             }`}
+            style={!isFlipping && !result ? { animation: 'pulse 2s ease-in-out infinite' } : undefined}
           >
             <div className="text-center">
               {isFlipping ? (
                 <div className="text-5xl sm:text-6xl font-black">?</div>
               ) : result ? (
                 <>
-                  <div className="text-5xl sm:text-6xl mb-2">
+                  <div className="text-5xl sm:text-6xl mb-2" style={{ animation: 'bounce 0.6s ease-out' }}>
                     {result === "heads" ? "👑" : "🦅"}
                   </div>
-                  <div className="text-2xl sm:text-3xl font-black uppercase">
+                  <div className="text-2xl sm:text-3xl font-black uppercase" style={{ animation: 'fadeIn 0.5s ease-out' }}>
                     {result}
                   </div>
                 </>
