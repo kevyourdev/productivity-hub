@@ -62,7 +62,9 @@ The system SHALL include enhanced animations for specific tool interactions.
 - **THEN** the coin shows a 3D flip animation before revealing result
 #### Scenario: Dice roll animation
 - **WHEN** user rolls dice
-- **THEN** dice icons show a shake/tumble animation before showing results
+- **THEN** dice show rapidly cycling numbers (simulating tumbling dice)
+- **AND** dice shake/tumble during the roll
+- **AND** final results are revealed after animation completes
 #### Scenario: Timer pulse animation
 - **WHEN** pomodoro timer is running
 - **THEN** a subtle pulse animation indicates active countdown
